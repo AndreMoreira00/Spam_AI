@@ -62,4 +62,7 @@ model.fit(X_train_tfidf, y_train)
 predictions = predict(model, X_test_tfidf)
 
 # Avaliar o modelo
-evaluate_model(y_test, predictions)
+```
+
+## Licença
+Este projeto é licenciado sob a MIT License.
