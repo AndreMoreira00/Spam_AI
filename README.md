@@ -33,35 +33,21 @@ Este projeto visa criar um classificador de spam eficaz usando técnicas de Apre
 ## Exemplo de Uso
 
 ```python
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from utils import clean_text, train_model, predict, evaluate_model
+import joblib
+model_svm = joblib.load('model_svm.pkl')
+X_treinamento = joblib.load('X_treinamento.pkl')
+vet = joblib.load('vet.pkl')
 
-# Carregar o conjunto de dados
-data = pd.read_csv('spam.csv')
+text = str(input())
+print(text)
 
-# Pré-processamento dos dados
-data['clean_text'] = data['text'].apply(clean_text)
+from sklearn.feature_extraction.text import CountVectorizer
+vt = CountVectorizer(ngram_range=(1, 2),vocabulary='vet', max_features=42858, )
+text = vt.transform(text)
+text
 
-# Dividir os dados em conjunto de treinamento e teste
-X_train, X_test, y_train, y_test = train_test_split(data['clean_text'], data['spam'], test_size=0.2, random_state=42)
-
-# Vetorização dos textos
-tfidf_vectorizer = TfidfVectorizer()
-X_train_tfidf = tfidf_vectorizer.fit_transform(X_train)
-X_test_tfidf = tfidf_vectorizer.transform(X_test)
-
-# Treinar o modelo
-model = MultinomialNB()
-model.fit(X_train_tfidf, y_train)
-
-# Fazer previsões
-predictions = predict(model, X_test_tfidf)
-
-# Avaliar o modelo
+previsao = model_svm.predict(text)
+previsao
 ```
 
 ## Licença
